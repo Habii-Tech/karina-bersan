@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Landing page — Dra. Karina Bersan</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:#FFFFFF}
+*{box-sizing:border-box}
+a{text-decoration:none;color:inherit}
+
+.ba-range{-webkit-appearance:none;appearance:none;position:absolute;inset:0;width:100%;height:100%;margin:0;background:transparent;cursor:ew-resize;}
+.ba-range:focus{outline:none;}
+.ba-range:focus-visible{outline:2px solid #C4A35A;outline-offset:2px;}
+.ba-range::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:40px;height:250px;background:transparent;border:none;cursor:ew-resize;}
+.ba-range::-moz-range-thumb{width:40px;height:250px;background:transparent;border:none;cursor:ew-resize;}
+.ba-range::-webkit-slider-runnable-track{background:transparent;border:none;}
+.ba-range::-moz-range-track{background:transparent;border:none;}
+
+/* ---- micro-interações ---- */
+.navlink{position:relative;transition:color .2s ease;}
+.navlink:hover{color:#126870;}
+.navlink::after{content:"";position:absolute;left:0;bottom:-6px;height:2px;width:0;background:#C4A35A;transition:width .3s ease;}
+.navlink:hover::after{width:100%;}
+
+.btn{transition:transform .28s cubic-bezier(.2,.6,.2,1),box-shadow .28s ease,background-color .28s ease;}
+.btn-primary:hover{transform:translateY(-2px);background-color:#126870;box-shadow:0 16px 34px rgba(18,104,112,.36);}
+.btn-cream:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(0,0,0,.26);}
+.btn-ghost{transition:color .2s ease;}
+.btn-ghost:hover{color:#1A8A94;}
+.btn-ghost svg{transition:transform .25s ease;}
+.btn-ghost:hover svg{transform:translateX(4px);}
+
+.cards > *{transition:box-shadow .34s ease,border-color .34s ease,translate .34s cubic-bezier(.2,.6,.2,1);}
+.cards > *:hover{box-shadow:0 22px 46px rgba(18,104,112,.18);border-color:#2AABB7;translate:0 -6px;}
+.depo-track{scrollbar-width:none;-ms-overflow-style:none;}
+.depo-track::-webkit-scrollbar{display:none;}
+.depo-card{transition:box-shadow .3s ease,border-color .3s ease;}
+.depo-card:hover{box-shadow:0 18px 40px rgba(18,104,112,.16);border-color:#2AABB7;}
+.marquee{-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);}
+.marquee-track{animation:depoMarquee 78s linear infinite;}
+.marquee:hover .marquee-track{animation-play-state:paused;}
+@keyframes depoMarquee{from{transform:translateX(0)}to{transform:translateX(-2424px)}}
+@media (prefers-reduced-motion: reduce){.marquee-track{animation:none;}}
+
+.tcards > *{box-shadow:0 4px 16px rgba(18,104,112,.06);}
+.tchip{background:#E8F6F7;transition:background-color .4s ease,transform .4s cubic-bezier(.2,.6,.2,1);}
+.tchip svg{transition:stroke .4s ease;}
+.tcards h3{transition:color .3s ease;}
+.tcards > div:hover .tchip{background-color:#1A8A94;transform:scale(1.06);}
+.tcards > div:hover .tchip svg{stroke:#FFFFFF;}
+.tcards > div:hover .tchip svg [fill="#1A8A94"]{fill:#FFFFFF;}
+.tcards > div:hover h3{color:#126870;}
+
+.imgzoom{transition:transform .55s cubic-bezier(.2,.6,.2,1),box-shadow .45s ease;will-change:transform;}
+.imgzoom:hover{transform:scale(1.045);box-shadow:0 20px 44px rgba(18,104,112,.22);}
+
+.orb{animation:floatY 9s ease-in-out infinite;}
+.knob{animation:pulseKnob 2.6s ease-in-out infinite;}
+
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+@keyframes pulseKnob{0%,100%{transform:translate(-50%,-50%) scale(1);box-shadow:0 2px 10px rgba(0,0,0,.32)}50%{transform:translate(-50%,-50%) scale(1.09);box-shadow:0 4px 18px rgba(18,104,112,.42)}}
+@keyframes revealUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+
+/* ---- entrada encenada do hero (no load) ---- */
+.hero-col > *{animation:fadeUp .75s cubic-bezier(.2,.6,.2,1) both;}
+.hero-col > *:nth-child(1){animation-delay:.05s}
+.hero-col > *:nth-child(2){animation-delay:.16s}
+.hero-col > *:nth-child(3){animation-delay:.3s}
+.hero-col > *:nth-child(4){animation-delay:.42s}
+.hero-col > *:nth-child(5){animation-delay:.54s}
+.hero-img{animation:fadeIn 1.05s .35s both;}
+
+/* ---- scroll reveal (progressive enhancement) ---- */
+@supports (animation-timeline: view()){
+  .reveal,.cards > *,.stagger > *{opacity:0;animation:revealUp linear both;animation-timeline:view();animation-range:entry 6% cover 24%;}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .orb,.knob,.hero-col > *,.hero-img,.reveal,.cards > *,.stagger > *{animation:none!important;opacity:1!important;transform:none!important;}
+  html{scroll-behavior:auto}
+}
+
+/* ===================== responsivo ===================== */
+@media (max-width:1200px){
+  [style*="max-width:1200px"],[style*="max-width:760px"]{padding-left:clamp(16px,4vw,32px)!important;padding-right:clamp(16px,4vw,32px)!important;}
+}
+@media (max-width:900px){
+  .page > div:not(.nav){height:auto!important;padding-top:60px!important;padding-bottom:60px!important;}
+  .nav{height:auto!important;}
+  .nav [style*="max-width:1200px"]{padding-top:14px!important;padding-bottom:14px!important;}
+  .nav-links a.navlink{display:none!important;}
+  .row{flex-direction:column!important;align-items:stretch!important;gap:36px!important;}
+  .row > *{width:100%!important;max-width:100%!important;flex:0 0 auto!important;}
+  .row img{max-width:100%!important;}
+  .hero-img{max-width:460px!important;margin-left:auto!important;margin-right:auto!important;}
+  .hero-img img{width:100%!important;}
+  .gallery{flex-direction:column!important;}
+  .gallery > *{width:100%!important;}
+  .gallery img{width:100%!important;height:auto!important;}
+  .tcards{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+  .stagger{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:24px!important;}
+  .cards:not(.tcards){grid-template-columns:1fr!important;}
+}
+@media (max-width:560px){
+  .page > div:not(.nav){padding-top:44px!important;padding-bottom:44px!important;}
+  .tcards,.stagger{grid-template-columns:1fr!important;}
+  #topo h1 span{font-size:clamp(30px,9vw,52px)!important;}
+  h2{font-size:clamp(28px,7.5vw,40px)!important;}
+}
+/* polimento mobile: imagens contidas + visibilidade garantida */
+@media (max-width:900px){
+  .reveal,.cards > *,.stagger > *{opacity:1!important;animation:none!important;}
+  .hero-img{height:auto!important;max-width:340px!important;}
+  .hero-img img{height:400px!important;object-fit:cover!important;object-position:center 15%!important;}
+  #sobre [style*="height:520px"]{height:auto!important;}
+  #sobre img{width:100%!important;height:360px!important;object-fit:cover!important;object-position:center 12%!important;}
+  #sobre [style*="gap:44px"]{gap:22px!important;flex-wrap:wrap!important;}
+  #consultorio .gallery img{width:100%!important;height:200px!important;object-fit:cover!important;}
+}
+/* mais respiro no mobile (menos "espremido") */
+@media (max-width:900px){
+  [style*="max-width:1200px"],[style*="max-width:760px"]{padding-left:32px!important;padding-right:32px!important;}
+  #topo{padding-top:40px!important;padding-bottom:48px!important;}
+  #topo > .row{gap:30px!important;}
+  #topo h1{line-height:1.14!important;}
+  #topo h1 span{font-size:42px!important;}
+  #topo p{font-size:16px!important;line-height:1.62!important;}
+  #topo p:first-of-type{font-size:17px!important;}
+  h2{font-size:34px!important;line-height:1.14!important;}
+}
+@media (max-width:560px){
+  [style*="max-width:1200px"],[style*="max-width:760px"]{padding-left:32px!important;padding-right:32px!important;}
+  #topo h1 span{font-size:31px!important;}
+  h2{font-size:28px!important;}
+}
+/* menu do topo no celular */
+.nav-cta-sm{display:none;}
+@media (max-width:600px){
+  .nav-cta{display:none!important;}
+  .nav-cta-sm{display:inline-flex!important;align-items:center;}
+  .nav [style*="font-size:24px"]{font-size:20px!important;white-space:nowrap!important;}
+  .nav [style*="letter-spacing:2.5px"]{font-size:8px!important;}
+}
+</style>
+</helmet>
+
+<div class="page" style="width:100%;min-height:6062px;background:#FFFFFF;font-family:'Montserrat',sans-serif;color:#1A1A1A;display:flex;flex-direction:column;overflow-x:hidden;">
+
+<!-- ============ NAV ============ -->
+<div class="nav" style="height:92px;flex:none;background:#FFFFFF;border-bottom:1px solid #E8E0D0;display:flex;align-items:center;justify-content:center;">
+  <div style="width:100%;max-width:1200px;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <img src="./assets/ff09f4e8f0f5e7a23e6e143e6f02464b.jpg" alt="Monograma Dra. Karina Bersan" style="width:46px;height:46px;border-radius:10px;object-fit:cover;">
+      <div style="display:flex;flex-direction:column;line-height:1;">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;color:#126870;">Dra. Karina Bersan</span>
+        <span style="font-size:9px;font-weight:600;letter-spacing:2.5px;color:#888888;margin-top:3px;">CONSULTÓRIO ODONTOLÓGICO</span>
+      </div>
+    </div>
+    <div class="nav-links" style="display:flex;align-items:center;gap:34px;">
+      <a href="#sobre" class="navlink" style="font-size:14px;font-weight:500;color:#4A4A4A;">Sobre</a>
+      <a href="#consultorio" class="navlink" style="font-size:14px;font-weight:500;color:#4A4A4A;">Consultório</a>
+      <a href="#tratamentos" class="navlink" style="font-size:14px;font-weight:500;color:#4A4A4A;">Tratamentos</a>
+      <a href="#depoimentos" class="navlink" style="font-size:14px;font-weight:500;color:#4A4A4A;">Depoimentos</a>
+      <a href="#agendar" class="btn btn-primary nav-cta" style="background:#1A8A94;color:#FFFFFF;font-size:14px;font-weight:600;padding:12px 24px;border-radius:999px;">Agende sua avaliação</a>
+      <a href="#agendar" class="btn btn-primary nav-cta-sm" style="background:#1A8A94;color:#FFFFFF;font-size:14px;font-weight:600;padding:11px 20px;border-radius:999px;white-space:nowrap;">Agendar</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<div id="topo" style="height:720px;flex:none;background:linear-gradient(125deg,#E7F4F3 0%,#F3ECDC 52%,#EFE3C7 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+  <div class="orb" style="position:absolute;top:-140px;right:-120px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.6) 0%,rgba(255,255,255,0) 70%);"></div>
+  <div class="row" style="width:100%;max-width:1200px;box-sizing:border-box;display:flex;align-items:center;gap:72px;position:relative;z-index:1;">
+    <div class="hero-col" style="width:600px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px;">
+        <span style="width:28px;height:1px;background:#C4A35A;"></span>
+        <span style="font-size:11px;font-weight:600;letter-spacing:2.5px;color:#126870;">ODONTOLOGIA HUMANIZADA · JUIZ DE FORA/MG</span>
+      </div>
+      <h1 style="margin:0;font-family:'Cormorant Garamond',serif;line-height:1.02;font-weight:400;color:#1A1A1A;">
+          <span style="display:block;font-size:58px;font-weight:500;letter-spacing:-.5px;">Seu sorriso,</span>
+          <span style="display:block;font-size:50px;font-weight:300;color:#4A4A4A;margin-top:4px;">cuidado de forma <span style="font-style:italic;font-weight:500;color:#1A8A94;">única.</span></span>
+        </h1>
+      <p style="margin:26px 0 0;font-size:19px;line-height:1.6;color:#4A4A4A;font-weight:500;">Odontologia com acolhimento, cuidado e excelência em cada detalhe.</p>
+      <p style="margin:14px 0 0;font-size:16px;line-height:1.7;color:#4A4A4A;max-width:500px;">Um consultório pensado para você se sentir seguro, bem cuidado e acolhido em todas as etapas do seu tratamento.</p>
+      <div style="display:flex;align-items:center;gap:24px;margin-top:38px;">
+        <a href="#agendar" class="btn btn-primary" style="background:#1A8A94;color:#FFFFFF;font-size:16px;font-weight:600;padding:17px 38px;border-radius:999px;box-shadow:0 8px 24px rgba(18,104,112,.28);">Agende sua avaliação</a>
+        <a href="#tratamentos" class="btn-ghost" style="font-size:15px;font-weight:600;color:#126870;display:flex;align-items:center;gap:8px;">Conheça os tratamentos
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#126870" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </a>
+      </div>
+    </div>
+    <div class="hero-img" style="width:456px;height:576px;position:relative;flex:none;">
+      <div style="position:absolute;inset:18px -18px -18px 18px;border-radius:20px;background:#1A8A94;"></div>
+      <img src="./assets/16c8b0c5bec6e2c5090068de84129f4e.jpg" alt="Dra. Karina Bersan em seu consultório" style="position:relative;width:456px;height:576px;object-fit:cover;object-position:center top;border-radius:20px;border:5px solid #FFFFFF;box-shadow:0 20px 50px rgba(18,104,112,.22);">
+      <div style="position:absolute;left:-28px;bottom:44px;background:#FFFFFF;border-radius:14px;padding:16px 20px;box-shadow:0 12px 30px rgba(0,0,0,.12);display:flex;align-items:center;gap:12px;">
+        <div style="display:flex;gap:2px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="#C4A35A"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="#C4A35A"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="#C4A35A"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="#C4A35A"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="#C4A35A"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg>
+        </div>
+        <div style="line-height:1.2;">
+          <div style="font-size:15px;font-weight:700;color:#1A1A1A;">5,0 no Google</div>
+          <div style="font-size:11px;color:#888888;">Avaliações reais de pacientes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SOBRE ============ -->
+<div id="sobre" style="height:660px;flex:none;background:#FFFFFF;display:flex;align-items:center;justify-content:center;">
+  <div class="reveal row" style="width:100%;max-width:1200px;box-sizing:border-box;display:flex;align-items:center;gap:72px;">
+    <div style="width:420px;height:520px;position:relative;flex:none;">
+      <div style="position:absolute;inset:-16px 16px 16px -16px;border:2px solid #C4A35A;border-radius:20px;"></div>
+      <img src="./assets/6d71eecc98b93d2b638435860b825b2a.jpg" alt="Retrato da Dra. Karina Bersan" style="position:relative;width:420px;height:520px;object-fit:cover;object-position:center 15%;border-radius:20px;">
+    </div>
+    <div style="width:648px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;">
+        <span style="width:28px;height:1px;background:#C4A35A;"></span>
+        <span style="font-size:11px;font-weight:600;letter-spacing:2.5px;color:#126870;">SOBRE</span>
+      </div>
+      <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:44px;line-height:1.1;font-weight:400;color:#1A1A1A;">Prazer, eu sou a Dra. Karina Bersan</h2>
+      <p style="margin:24px 0 0;font-size:16px;line-height:1.75;color:#4A4A4A;">Desde criança, a Odontologia fazia parte dos meus sonhos. Hoje, quase 10 anos depois da minha graduação pela Universidade Federal de Juiz de Fora (UFJF), vivo uma nova etapa dessa história: ter o meu próprio consultório e cuidar de cada paciente de forma ainda mais próxima e personalizada.</p>
+      <p style="margin:16px 0 0;font-size:16px;line-height:1.75;color:#4A4A4A;">Acredito que um tratamento vai muito além de cuidar dos dentes. É sobre ouvir, entender as necessidades de cada pessoa e construir, juntos, um cuidado que faça sentido para a sua saúde, a sua rotina e o seu sorriso.</p>
+      <div style="display:flex;gap:44px;margin-top:34px;padding-top:30px;border-top:1px solid #E8E0D0;">
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:500;color:#1A8A94;">~10</div>
+          <div style="font-size:13px;color:#888888;margin-top:2px;">anos de trajetória</div>
+        </div>
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:500;color:#1A8A94;">Ortodontia</div>
+          <div style="font-size:13px;color:#888888;margin-top:2px;">especialista na área</div>
+        </div>
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:500;color:#1A8A94;">CRO-MG</div>
+          <div style="font-size:13px;color:#888888;margin-top:2px;">49.110</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ CONSULTÓRIO ============ -->
+<div id="consultorio" style="height:640px;flex:none;background:#E8F6F7;display:flex;align-items:center;justify-content:center;">
+  <div class="reveal row" style="width:100%;max-width:1200px;box-sizing:border-box;display:flex;align-items:center;gap:64px;">
+    <div style="width:596px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;">
+        <span style="width:28px;height:1px;background:#C4A35A;"></span>
+        <span style="font-size:11px;font-weight:600;letter-spacing:2.5px;color:#126870;">O ESPAÇO</span>
+      </div>
+      <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:44px;line-height:1.1;font-weight:400;color:#1A1A1A;">Um consultório feito para você</h2>
+      <p style="margin:24px 0 0;font-size:16px;line-height:1.75;color:#4A4A4A;">Cada detalhe do consultório foi pensado para proporcionar uma experiência mais tranquila, confortável e acolhedora. Aqui, você encontra um atendimento próximo e humanizado, com tempo para conversar, tirar dúvidas e entender todas as possibilidades para o seu tratamento.</p>
+      <p style="margin:16px 0 0;font-size:16px;line-height:1.75;color:#4A4A4A;">Mais do que realizar procedimentos, quero que você se sinta cuidado desde o primeiro contato.</p>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:30px;background:#FFFFFF;border-radius:12px;padding:16px 20px;box-shadow:0 6px 18px rgba(18,104,112,.08);">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+        <span style="font-size:15px;color:#1A1A1A;font-weight:500;">Av. Pedro Timponi, nº 12, Loja 2 — Nova Benfica, Juiz de Fora/MG</span>
+      </div>
+    </div>
+    <div class="gallery" style="width:540px;display:flex;gap:16px;">
+      <img class="imgzoom" src="./assets/7c2fe61785522c504f6cf3686e2b242e.jpg" alt="Recepção do consultório da Dra. Karina Bersan" style="width:300px;height:480px;object-fit:cover;border-radius:18px;">
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <img class="imgzoom" src="./assets/4892d2d57239d76691a4bf4d293c73d2.jpg" alt="Sala de atendimento" style="width:224px;height:232px;object-fit:cover;border-radius:18px;">
+        <img class="imgzoom" src="./assets/1123b405a318293487185e0912736999.jpg" alt="Ambiente da recepção" style="width:224px;height:232px;object-fit:cover;border-radius:18px;">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TRATAMENTOS ============ -->
+<div id="tratamentos" style="height:1090px;flex:none;background:#FBF8F1;display:flex;flex-direction:column;align-items:center;padding-top:76px;">
+  <div class="reveal" style="width:100%;max-width:1200px;box-sizing:border-box;text-align:center;">
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;">
+      <span style="width:28px;height:1px;background:#C4A35A;"></span>
+      <span style="font-size:11px;font-weight:600;letter-spacing:2.5px;color:#126870;">NOSSOS TRATAMENTOS</span>
+      <span style="width:28px;height:1px;background:#C4A35A;"></span>
+    </div>
+    <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:44px;line-height:1.1;font-weight:400;color:#1A1A1A;">Cuidado completo para o seu sorriso</h2>
+    <p style="margin:16px auto 0;font-size:16px;line-height:1.7;color:#4A4A4A;max-width:640px;">Tratamentos planejados de forma individualizada, respeitando a história e as necessidades de cada paciente.</p>
+  </div>
+  <div class="cards tcards" style="width:100%;max-width:1200px;box-sizing:border-box;margin-top:44px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;">
+    <!-- card -->
+    <div style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:16px;padding:26px;height:250px;">
+      <div class="tchip" style="width:54px;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="4" height="6" rx="1"></rect><rect x="10" y="9" width="4" height="6" rx="1"></rect><rect x="17" y="9" width="4" height="6" rx="1"></rect><line x1="2.5" y1="12" x2="21.5" y2="12"></line></svg>
+      </div>
+      <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.2;font-weight:500;color:#1A1A1A;">Ortodontia</h3>
+      <p style="margin:12px 0 0;font-size:13.5px;line-height:1.62;color:#4A4A4A;">Para crianças, adolescentes e adultos, alinhando os dentes e melhorando função, estética e saúde.</p>
+    </div>
+    <div style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:16px;padding:26px;height:250px;">
+      <div class="tchip" style="width:54px;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3l1.8 4.7L17.5 9l-4.7 1.3L11 15l-1.8-4.7L4.5 9l4.7-1.3z"></path><path d="M18 14l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"></path></svg>
+      </div>
+      <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.2;font-weight:500;color:#1A1A1A;">Dentística e Estética</h3>
+      <p style="margin:12px 0 0;font-size:13.5px;line-height:1.62;color:#4A4A4A;">Recuperação e estética dos dentes com resultados naturais e harmônicos.</p>
+    </div>
+    <div style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:16px;padding:26px;height:250px;">
+      <div class="tchip" style="width:54px;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9l3 3 3-4.5L13 12l2.5-4.5L18 12l2-3v9H4z"></path></svg>
+      </div>
+      <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.2;font-weight:500;color:#1A1A1A;">Prótese Dentária</h3>
+      <p style="margin:12px 0 0;font-size:13.5px;line-height:1.62;color:#4A4A4A;">Reabilitação de dentes perdidos ou comprometidos, devolvendo função e conforto.</p>
+    </div>
+    <div style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:16px;padding:26px;height:250px;">
+      <div class="tchip" style="width:54px;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-1 0-1.3-1.7-1.7-3-.5-1.6-.8-2.3-1.6-4C7.7 11.5 7.4 10 8.6 9.1c1-.8 2.2-.4 3.4-.4s2.4-.4 3.4.4c1.2.9.9 2.4.1 4.9-.8 1.7-1.1 2.4-1.6 4-.4 1.3-.9 3-1.9 3z"></path><path d="M12 4.5V6M8 6l.7 1.4M16 6l-.7 1.4"></path></svg>
+      </div>
+      <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.2;font-weight:500;color:#1A1A1A;">Clareamento Dental</h3>
+      <p style="margin:12px 0 0;font-size:13.5px;line-height:1.62;color:#4A4A4A;">Protocolos personalizados para um sorriso mais claro, respeitando cada paciente.</p>
+    </div>
+    <div style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:16px;padding:26px;height:250px;">
+      <div class="tchip" style="width:54px;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6z"></path><path d="M9 12l2 2 4-4"></path></svg>
+      </div>
+      <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.2;font-weight:500;color:#1A1A1A;">Clínica Geral e Prevenção</h3>
+      <p style="margin:12px 0 0;font-size:13.5px;line-height:1.62;color:#4A4A4A;">Avaliação, limpeza, restaurações e cuidados preventivos para manter tudo em dia.</p>
+    </div>
+    <div style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:16px;padding:26px;height:250px;">
+      <div class="tchip" style="width:54px;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8c0 4 2.2 6.5 7 6.5S19 12 19 8"></path><path d="M5 12c0 4 2.2 6.5 7 6.5S19 16 19 12"></path></svg>
+      </div>
+      <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.2;font-weight:500;color:#1A1A1A;">Alinhadores Ortodônticos</h3>
+      <p style="margin:12px 0 0;font-size:13.5px;line-height:1.62;color:#4A4A4A;">Alternativa discreta para casos selecionados, com planejamento individualizado.</p>
+    </div>
+    <div style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:16px;padding:26px;height:250px;">
+      <div class="tchip" style="width:54px;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-2.3 0-3.6 1.4-3.6 3.5 0 1.6.8 2.6 1.5 3.5h4.2c.7-.9 1.5-1.9 1.5-3.5C15.6 4.4 14.3 3 12 3z"></path><path d="M10 12h4M10.3 14.5h3.4M11 17h2M11.4 19.5h1.2"></path></svg>
+      </div>
+      <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.2;font-weight:500;color:#1A1A1A;">Implantes Dentários</h3>
+      <p style="margin:12px 0 0;font-size:13.5px;line-height:1.62;color:#4A4A4A;">Reposição de dentes perdidos com segurança, conforto, função e naturalidade.</p>
+    </div>
+    <div style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:16px;padding:26px;height:250px;">
+      <div class="tchip" style="width:54px;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3.5l6.5 6.5-9.5 9.5-3.5 1 1-3.5z"></path><path d="M11 6.5l6.5 6.5"></path></svg>
+      </div>
+      <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.2;font-weight:500;color:#1A1A1A;">Cirurgias Odontológicas</h3>
+      <p style="margin:12px 0 0;font-size:13.5px;line-height:1.62;color:#4A4A4A;">Extrações, sisos e demais procedimentos cirúrgicos conforme cada necessidade.</p>
+    </div>
+    <div style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:16px;padding:26px;height:250px;">
+      <div class="tchip" style="width:54px;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-2.5 0-4 1.5-4 3.7 0 3 1.2 4.9 1.8 8.3.3 1.5.6 3 1.3 3s.9-1.6 1-3M12 3c2.5 0 4 1.5 4 3.7 0 3-1.2 4.9-1.8 8.3-.3 1.5-.6 3-1.3 3"></path><path d="M12 7v7"></path><circle cx="12" cy="6" r=".7" fill="#1A8A94"></circle></svg>
+      </div>
+      <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.2;font-weight:500;color:#1A1A1A;">Endodontia</h3>
+      <p style="margin:12px 0 0;font-size:13.5px;line-height:1.62;color:#4A4A4A;">Tratamento de canal para recuperar e preservar o dente sempre que possível.</p>
+    </div>
+    <div style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:16px;padding:26px;height:250px;">
+      <div class="tchip" style="width:54px;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v6.5M12 4v7M17 4v6.5"></path><path d="M4 14.5c1.4 0 1.4 2 2.8 2s1.4-2 2.8-2 1.4 2 2.8 2 1.4-2 2.8-2 1.4 2 2.8 2"></path></svg>
+      </div>
+      <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.2;font-weight:500;color:#1A1A1A;">Periodontia</h3>
+      <p style="margin:12px 0 0;font-size:13.5px;line-height:1.62;color:#4A4A4A;">Prevenção e tratamento das doenças da gengiva e dos tecidos que sustentam os dentes.</p>
+    </div>
+    <div style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:16px;padding:26px;height:250px;">
+      <div class="tchip" style="width:54px;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M9 10.5h.01M15 10.5h.01"></path><path d="M8.5 14c1.2 1.6 5.8 1.6 7 0"></path></svg>
+      </div>
+      <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.2;font-weight:500;color:#1A1A1A;">Odontopediatria</h3>
+      <p style="margin:12px 0 0;font-size:13.5px;line-height:1.62;color:#4A4A4A;">Atendimento acolhedor desde cedo, construindo uma relação positiva com o dentista.</p>
+    </div>
+    <!-- CTA tile -->
+    <a href="#agendar" style="background:#1A8A94;border-radius:16px;padding:26px;height:250px;display:flex;flex-direction:column;justify-content:space-between;">
+      <div style="width:54px;height:54px;border-radius:12px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M4 9.5h16M8 3v4M16 3v4"></path><path d="M9 14.5l2 2 4-4"></path></svg>
+      </div>
+      <div>
+        <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;color:#FFFFFF;">Não sabe por onde começar?</h3>
+        <span style="display:inline-flex;align-items:center;gap:8px;margin-top:10px;font-size:14px;font-weight:600;color:#F5EDD6;">Agende uma avaliação
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F5EDD6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- ============ DIFERENCIAIS ============ -->
+<div style="height:520px;flex:none;background:#1A8A94;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+  <div style="width:100%;max-width:1200px;box-sizing:border-box;">
+    <div class="reveal" style="text-align:center;margin-bottom:48px;">
+      <div style="font-size:11px;font-weight:600;letter-spacing:2.5px;color:#F5EDD6;margin-bottom:14px;">POR QUE ESCOLHER</div>
+      <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:400;color:#FFFFFF;">O consultório da Dra. Karina</h2>
+    </div>
+    <div class="stagger" style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:28px;">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:500;color:#C4A35A;">01</div>
+        <div style="height:1px;background:rgba(255,255,255,.25);margin:12px 0 14px;"></div>
+        <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:500;color:#FFFFFF;">Atendimento humanizado</h3>
+        <p style="margin:10px 0 0;font-size:13px;line-height:1.6;color:rgba(255,255,255,.85);">Você é ouvido e suas necessidades são levadas em conta em cada etapa.</p>
+      </div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:500;color:#C4A35A;">02</div>
+        <div style="height:1px;background:rgba(255,255,255,.25);margin:12px 0 14px;"></div>
+        <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:500;color:#FFFFFF;">Planejamento individualizado</h3>
+        <p style="margin:10px 0 0;font-size:13px;line-height:1.6;color:rgba(255,255,255,.85);">Cada sorriso tem uma história e um tratamento pensado só para ele.</p>
+      </div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:500;color:#C4A35A;">03</div>
+        <div style="height:1px;background:rgba(255,255,255,.25);margin:12px 0 14px;"></div>
+        <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:500;color:#FFFFFF;">Cuidado e acolhimento</h3>
+        <p style="margin:10px 0 0;font-size:13px;line-height:1.6;color:rgba(255,255,255,.85);">Um ambiente pensado para você se sentir confortável e seguro.</p>
+      </div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:500;color:#C4A35A;">04</div>
+        <div style="height:1px;background:rgba(255,255,255,.25);margin:12px 0 14px;"></div>
+        <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:500;color:#FFFFFF;">Excelência profissional</h3>
+        <p style="margin:10px 0 0;font-size:13px;line-height:1.6;color:rgba(255,255,255,.85);">Atualização constante para oferecer tratamentos cada vez mais completos.</p>
+      </div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:500;color:#C4A35A;">05</div>
+        <div style="height:1px;background:rgba(255,255,255,.25);margin:12px 0 14px;"></div>
+        <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:500;color:#FFFFFF;">Odontologia com propósito</h3>
+        <p style="margin:10px 0 0;font-size:13px;line-height:1.6;color:rgba(255,255,255,.85);">Cuidar do sorriso é cuidar da autoestima, da saúde e da qualidade de vida.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ RESULTADOS ============ -->
+<div style="height:940px;flex:none;background:#F5EDD6;display:flex;flex-direction:column;align-items:center;padding-top:70px;">
+  <div class="reveal" style="width:100%;max-width:1200px;box-sizing:border-box;text-align:center;">
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;">
+      <span style="width:28px;height:1px;background:#C4A35A;"></span>
+      <span style="font-size:11px;font-weight:600;letter-spacing:2.5px;color:#126870;">RESULTADOS REAIS</span>
+      <span style="width:28px;height:1px;background:#C4A35A;"></span>
+    </div>
+    <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:44px;line-height:1.1;font-weight:400;color:#1A1A1A;">Sorrisos transformados com planejamento</h2>
+    <p style="margin:14px auto 0;font-size:15px;line-height:1.6;color:#4A4A4A;max-width:600px;">Casos reais de ortodontia acompanhados no consultório. Os resultados variam de acordo com cada paciente.</p>
+  </div>
+  <div class="cards" style="width:100%;max-width:1200px;box-sizing:border-box;margin-top:40px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;">
+    <sc-for list="{{sliders}}" as="s" hint-placeholder-count="3">
+    <div style="background:#FFFFFF;border-radius:18px;padding:14px;box-shadow:0 10px 30px rgba(18,104,112,.10);">
+      <div style="position:relative;width:100%;height:250px;border-radius:12px;overflow:hidden;user-select:none;-webkit-user-select:none;">
+        <img src="{{s.after}}" alt="Depois do tratamento ortodôntico" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;pointer-events:none;">
+        <img src="{{s.before}}" alt="Antes do tratamento ortodôntico" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;clip-path:{{s.clipPath}};pointer-events:none;">
+        <span style="position:absolute;top:12px;left:12px;background:rgba(26,26,26,.72);color:#FFFFFF;font-size:10px;font-weight:600;letter-spacing:1px;padding:4px 9px;border-radius:6px;pointer-events:none;">ANTES</span>
+        <span style="position:absolute;top:12px;right:12px;background:#1A8A94;color:#FFFFFF;font-size:10px;font-weight:600;letter-spacing:1px;padding:4px 9px;border-radius:6px;pointer-events:none;">DEPOIS</span>
+        <div style="position:absolute;top:0;bottom:0;left:{{s.leftPct}};width:2px;background:#FFFFFF;box-shadow:0 0 8px rgba(0,0,0,.4);transform:translateX(-1px);pointer-events:none;">
+          <div class="knob" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;background:#FFFFFF;box-shadow:0 2px 10px rgba(0,0,0,.32);display:flex;align-items:center;justify-content:center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-4 6 4 6M15 6l4 6-4 6"></path></svg>
+          </div>
+        </div>
+        <input class="ba-range" type="range" min="0" max="100" value="{{s.pos}}" onInput="{{s.onInput}}" aria-label="Arraste para comparar o antes e o depois">
+      </div>
+      <div style="padding:14px 6px 4px;display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-size:14px;font-weight:600;color:#1A1A1A;">{{s.cap}}</span>
+        <span style="font-size:12px;color:#888888;">Ortodontia</span>
+      </div>
+    </div>
+    </sc-for>
+  </div>
+</div>
+
+<!-- ============ DEPOIMENTOS ============ -->
+<div id="depoimentos" style="height:560px;flex:none;background:#FFFFFF;display:flex;flex-direction:column;align-items:center;padding-top:70px;">
+  <div class="reveal" style="width:100%;max-width:1200px;box-sizing:border-box;text-align:center;">
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;">
+      <span style="width:28px;height:1px;background:#C4A35A;"></span>
+      <span style="font-size:11px;font-weight:600;letter-spacing:2.5px;color:#126870;">DEPOIMENTOS</span>
+      <span style="width:28px;height:1px;background:#C4A35A;"></span>
+    </div>
+    <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:44px;line-height:1.1;font-weight:400;color:#1A1A1A;">O que dizem os pacientes</h2>
+    <div style="display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:#E8F6F7;padding:8px 16px;border-radius:999px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg>
+      <span style="font-size:13px;font-weight:600;color:#126870;">5,0 · Avaliações reais no Google</span>
+    </div>
+  </div>
+  <div class="marquee" style="width:100%;max-width:1200px;box-sizing:border-box;margin-top:36px;overflow:hidden;">
+  <div class="marquee-track" style="display:flex;gap:24px;width:max-content;padding:8px 4px 18px;">
+    <div class="depo-card" style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:18px;padding:28px 26px;height:250px;display:flex;flex-direction:column;position:relative;overflow:hidden;flex:none;width:380px;scroll-snap-align:start;"><span aria-hidden="true" style="position:absolute;top:10px;right:22px;font-family:'Cormorant Garamond',serif;font-size:74px;line-height:1;color:#E8F6F7;pointer-events:none;">”</span>
+      <div style="display:flex;gap:2px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg></div>
+      <p style="margin:0;font-size:14.5px;line-height:1.65;color:#4A4A4A;flex-grow:1;">“A profissional se preocupa com o paciente: pergunta em todos os procedimentos se está tudo bem. Isso é empatia, o que poucos têm hoje.”</p>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid #E8E0D0;">
+        <div style="width:42px;height:42px;border-radius:50%;background:#1A8A94;color:#FFFFFF;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none;">R</div>
+        <div style="line-height:1.35;">
+          <div style="font-size:14px;font-weight:600;color:#1A1A1A;">Rosimar</div>
+          <div style="font-size:11px;color:#888888;display:flex;align-items:center;gap:5px;margin-top:2px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+            Avaliação no Google · set. 2024
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="depo-card" style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:18px;padding:28px 26px;height:250px;display:flex;flex-direction:column;position:relative;overflow:hidden;flex:none;width:380px;scroll-snap-align:start;"><span aria-hidden="true" style="position:absolute;top:10px;right:22px;font-family:'Cormorant Garamond',serif;font-size:74px;line-height:1;color:#E8F6F7;pointer-events:none;">”</span>
+      <div style="display:flex;gap:2px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg></div>
+      <p style="margin:0;font-size:14.5px;line-height:1.65;color:#4A4A4A;flex-grow:1;">“Excelente profissional. Tratamento muito bem feito. Parabéns à Dra. Karina Bersan pelo profissionalismo.”</p>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid #E8E0D0;">
+        <div style="width:42px;height:42px;border-radius:50%;background:#126870;color:#FFFFFF;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none;">L</div>
+        <div style="line-height:1.35;">
+          <div style="font-size:14px;font-weight:600;color:#1A1A1A;">Luciano</div>
+          <div style="font-size:11px;color:#888888;display:flex;align-items:center;gap:5px;margin-top:2px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+            Avaliação no Google · jul. 2024
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="depo-card" style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:18px;padding:28px 26px;height:250px;display:flex;flex-direction:column;position:relative;overflow:hidden;flex:none;width:380px;scroll-snap-align:start;"><span aria-hidden="true" style="position:absolute;top:10px;right:22px;font-family:'Cormorant Garamond',serif;font-size:74px;line-height:1;color:#E8F6F7;pointer-events:none;">”</span>
+      <div style="display:flex;gap:2px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg></div>
+      <p style="margin:0;font-size:14.5px;line-height:1.65;color:#4A4A4A;flex-grow:1;">“Uma excelente dentista. Trabalha com calma e faz tudo com carinho.”</p>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid #E8E0D0;">
+        <div style="width:42px;height:42px;border-radius:50%;background:#C4A35A;color:#1A1A1A;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none;">C</div>
+        <div style="line-height:1.35;">
+          <div style="font-size:14px;font-weight:600;color:#1A1A1A;">C. J. S.</div>
+          <div style="font-size:11px;color:#888888;display:flex;align-items:center;gap:5px;margin-top:2px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+            Avaliação no Google · ago. 2024
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="depo-card" style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:18px;padding:28px 26px;height:250px;display:flex;flex-direction:column;position:relative;overflow:hidden;flex:none;width:380px;scroll-snap-align:start;"><span aria-hidden="true" style="position:absolute;top:10px;right:22px;font-family:'Cormorant Garamond',serif;font-size:74px;line-height:1;color:#E8F6F7;pointer-events:none;">”</span>
+      <div style="display:flex;gap:2px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg></div>
+      <p style="margin:0;font-size:14.5px;line-height:1.65;color:#4A4A4A;flex-grow:1;">“Maravilhosa, atendimento impecável, pontual e atenciosa.”</p>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid #E8E0D0;">
+        <div style="width:42px;height:42px;border-radius:50%;background:#1A8A94;color:#FFFFFF;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none;">I</div>
+        <div style="line-height:1.35;">
+          <div style="font-size:14px;font-weight:600;color:#1A1A1A;">Izabel</div>
+          <div style="font-size:11px;color:#888888;display:flex;align-items:center;gap:5px;margin-top:2px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+            Avaliação no Google · jun. 2024
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="depo-card" style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:18px;padding:28px 26px;height:250px;display:flex;flex-direction:column;position:relative;overflow:hidden;flex:none;width:380px;scroll-snap-align:start;"><span aria-hidden="true" style="position:absolute;top:10px;right:22px;font-family:'Cormorant Garamond',serif;font-size:74px;line-height:1;color:#E8F6F7;pointer-events:none;">”</span>
+      <div style="display:flex;gap:2px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg></div>
+      <p style="margin:0;font-size:14.5px;line-height:1.65;color:#4A4A4A;flex-grow:1;">“Excelente atendimento, atenciosa e muito profissional. Sem dizer que é uma simpatia de pessoa.”</p>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid #E8E0D0;">
+        <div style="width:42px;height:42px;border-radius:50%;background:#126870;color:#FFFFFF;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none;">W</div>
+        <div style="line-height:1.35;">
+          <div style="font-size:14px;font-weight:600;color:#1A1A1A;">Welliton</div>
+          <div style="font-size:11px;color:#888888;display:flex;align-items:center;gap:5px;margin-top:2px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+            Avaliação no Google · out. 2024
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="depo-card" style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:18px;padding:28px 26px;height:250px;display:flex;flex-direction:column;position:relative;overflow:hidden;flex:none;width:380px;scroll-snap-align:start;"><span aria-hidden="true" style="position:absolute;top:10px;right:22px;font-family:'Cormorant Garamond',serif;font-size:74px;line-height:1;color:#E8F6F7;pointer-events:none;">”</span>
+      <div style="display:flex;gap:2px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg></div>
+      <p style="margin:0;font-size:14.5px;line-height:1.65;color:#4A4A4A;flex-grow:1;">“Dra. maravilhosa e com um ótimo carisma. Excelente profissional!”</p>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid #E8E0D0;">
+        <div style="width:42px;height:42px;border-radius:50%;background:#C4A35A;color:#1A1A1A;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none;">E</div>
+        <div style="line-height:1.35;">
+          <div style="font-size:14px;font-weight:600;color:#1A1A1A;">Emilly</div>
+          <div style="font-size:11px;color:#888888;display:flex;align-items:center;gap:5px;margin-top:2px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+            Avaliação no Google · abr. 2024
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="depo-card" aria-hidden="true" style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:18px;padding:28px 26px;height:250px;display:flex;flex-direction:column;position:relative;overflow:hidden;flex:none;width:380px;"><span style="position:absolute;top:10px;right:22px;font-family:'Cormorant Garamond',serif;font-size:74px;line-height:1;color:#E8F6F7;pointer-events:none;">”</span>
+      <div style="display:flex;gap:2px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg></div>
+      <p style="margin:0;font-size:14.5px;line-height:1.65;color:#4A4A4A;flex-grow:1;">“A profissional se preocupa com o paciente: pergunta em todos os procedimentos se está tudo bem. Isso é empatia, o que poucos têm hoje.”</p>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid #E8E0D0;">
+        <div style="width:42px;height:42px;border-radius:50%;background:#1A8A94;color:#FFFFFF;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none;">R</div>
+        <div style="line-height:1.35;"><div style="font-size:14px;font-weight:600;color:#1A1A1A;">Rosimar</div><div style="font-size:11px;color:#888888;display:flex;align-items:center;gap:5px;margin-top:2px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Avaliação no Google · set. 2024</div></div>
+      </div>
+    </div>
+    <div class="depo-card" aria-hidden="true" style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:18px;padding:28px 26px;height:250px;display:flex;flex-direction:column;position:relative;overflow:hidden;flex:none;width:380px;"><span style="position:absolute;top:10px;right:22px;font-family:'Cormorant Garamond',serif;font-size:74px;line-height:1;color:#E8F6F7;pointer-events:none;">”</span>
+      <div style="display:flex;gap:2px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg></div>
+      <p style="margin:0;font-size:14.5px;line-height:1.65;color:#4A4A4A;flex-grow:1;">“Excelente profissional. Tratamento muito bem feito. Parabéns à Dra. Karina Bersan pelo profissionalismo.”</p>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid #E8E0D0;">
+        <div style="width:42px;height:42px;border-radius:50%;background:#126870;color:#FFFFFF;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none;">L</div>
+        <div style="line-height:1.35;"><div style="font-size:14px;font-weight:600;color:#1A1A1A;">Luciano</div><div style="font-size:11px;color:#888888;display:flex;align-items:center;gap:5px;margin-top:2px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Avaliação no Google · jul. 2024</div></div>
+      </div>
+    </div>
+    <div class="depo-card" aria-hidden="true" style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:18px;padding:28px 26px;height:250px;display:flex;flex-direction:column;position:relative;overflow:hidden;flex:none;width:380px;"><span style="position:absolute;top:10px;right:22px;font-family:'Cormorant Garamond',serif;font-size:74px;line-height:1;color:#E8F6F7;pointer-events:none;">”</span>
+      <div style="display:flex;gap:2px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg></div>
+      <p style="margin:0;font-size:14.5px;line-height:1.65;color:#4A4A4A;flex-grow:1;">“Uma excelente dentista. Trabalha com calma e faz tudo com carinho.”</p>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid #E8E0D0;">
+        <div style="width:42px;height:42px;border-radius:50%;background:#C4A35A;color:#1A1A1A;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none;">C</div>
+        <div style="line-height:1.35;"><div style="font-size:14px;font-weight:600;color:#1A1A1A;">C. J. S.</div><div style="font-size:11px;color:#888888;display:flex;align-items:center;gap:5px;margin-top:2px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Avaliação no Google · ago. 2024</div></div>
+      </div>
+    </div>
+    <div class="depo-card" aria-hidden="true" style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:18px;padding:28px 26px;height:250px;display:flex;flex-direction:column;position:relative;overflow:hidden;flex:none;width:380px;"><span style="position:absolute;top:10px;right:22px;font-family:'Cormorant Garamond',serif;font-size:74px;line-height:1;color:#E8F6F7;pointer-events:none;">”</span>
+      <div style="display:flex;gap:2px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg></div>
+      <p style="margin:0;font-size:14.5px;line-height:1.65;color:#4A4A4A;flex-grow:1;">“Maravilhosa, atendimento impecável, pontual e atenciosa.”</p>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid #E8E0D0;">
+        <div style="width:42px;height:42px;border-radius:50%;background:#1A8A94;color:#FFFFFF;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none;">I</div>
+        <div style="line-height:1.35;"><div style="font-size:14px;font-weight:600;color:#1A1A1A;">Izabel</div><div style="font-size:11px;color:#888888;display:flex;align-items:center;gap:5px;margin-top:2px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Avaliação no Google · jun. 2024</div></div>
+      </div>
+    </div>
+    <div class="depo-card" aria-hidden="true" style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:18px;padding:28px 26px;height:250px;display:flex;flex-direction:column;position:relative;overflow:hidden;flex:none;width:380px;"><span style="position:absolute;top:10px;right:22px;font-family:'Cormorant Garamond',serif;font-size:74px;line-height:1;color:#E8F6F7;pointer-events:none;">”</span>
+      <div style="display:flex;gap:2px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg></div>
+      <p style="margin:0;font-size:14.5px;line-height:1.65;color:#4A4A4A;flex-grow:1;">“Excelente atendimento, atenciosa e muito profissional. Sem dizer que é uma simpatia de pessoa.”</p>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid #E8E0D0;">
+        <div style="width:42px;height:42px;border-radius:50%;background:#126870;color:#FFFFFF;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none;">W</div>
+        <div style="line-height:1.35;"><div style="font-size:14px;font-weight:600;color:#1A1A1A;">Welliton</div><div style="font-size:11px;color:#888888;display:flex;align-items:center;gap:5px;margin-top:2px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Avaliação no Google · out. 2024</div></div>
+      </div>
+    </div>
+    <div class="depo-card" aria-hidden="true" style="background:#FFFFFF;border:1px solid #E8E0D0;border-radius:18px;padding:28px 26px;height:250px;display:flex;flex-direction:column;position:relative;overflow:hidden;flex:none;width:380px;"><span style="position:absolute;top:10px;right:22px;font-family:'Cormorant Garamond',serif;font-size:74px;line-height:1;color:#E8F6F7;pointer-events:none;">”</span>
+      <div style="display:flex;gap:2px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#1A8A94"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18.9 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"></path></svg></div>
+      <p style="margin:0;font-size:14.5px;line-height:1.65;color:#4A4A4A;flex-grow:1;">“Dra. maravilhosa e com um ótimo carisma. Excelente profissional!”</p>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid #E8E0D0;">
+        <div style="width:42px;height:42px;border-radius:50%;background:#C4A35A;color:#1A1A1A;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none;">E</div>
+        <div style="line-height:1.35;"><div style="font-size:14px;font-weight:600;color:#1A1A1A;">Emilly</div><div style="font-size:11px;color:#888888;display:flex;align-items:center;gap:5px;margin-top:2px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1A8A94" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Avaliação no Google · abr. 2024</div></div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- ============ CTA FINAL ============ -->
+<div id="agendar" style="height:480px;flex:none;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#126870;">
+  <img src="./assets/aac65339ee557f48507e96e6f86155ad.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.14;">
+  <div style="position:absolute;inset:0;background:#126870;opacity:.62;"></div>
+  <div class="reveal" style="position:relative;z-index:1;width:100%;max-width:760px;box-sizing:border-box;text-align:center;">
+    <div style="font-size:11px;font-weight:600;letter-spacing:2.5px;color:#F5EDD6;margin-bottom:18px;">SEU SORRISO MERECE CUIDADO</div>
+    <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:48px;line-height:1.12;font-weight:400;color:#FFFFFF;">Venha conhecer o consultório da Dra. Karina Bersan</h2>
+    <p style="margin:20px auto 0;font-size:16px;line-height:1.7;color:rgba(255,255,255,.9);max-width:560px;">Se você procura um atendimento próximo, cuidadoso e personalizado em Juiz de Fora, será um prazer receber você.</p>
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:20px;color:#F5EDD6;font-size:14px;">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F5EDD6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+      <span>Nova Benfica — Juiz de Fora/MG</span>
+    </div>
+    <a href="#agendar" class="btn btn-cream" style="display:inline-block;margin-top:32px;background:#F5EDD6;color:#126870;font-size:16px;font-weight:700;padding:18px 44px;border-radius:999px;box-shadow:0 12px 30px rgba(0,0,0,.2);">Agendar minha avaliação</a>
+  </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<div style="height:360px;flex:none;background:#141413;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+  <div class="row" style="width:100%;max-width:1200px;box-sizing:border-box;display:flex;justify-content:space-between;padding-bottom:36px;border-bottom:1px solid rgba(255,255,255,.12);">
+    <div style="width:360px;">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
+        <img src="./assets/ff09f4e8f0f5e7a23e6e143e6f02464b.jpg" alt="Monograma Dra. Karina Bersan" style="width:48px;height:48px;border-radius:10px;object-fit:cover;">
+        <div style="display:flex;flex-direction:column;line-height:1;">
+          <span style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;color:#F5EDD6;">Dra. Karina Bersan</span>
+          <span style="font-size:9px;font-weight:600;letter-spacing:2.5px;color:rgba(245,237,214,.6);margin-top:4px;">CONSULTÓRIO ODONTOLÓGICO</span>
+        </div>
+      </div>
+      <p style="margin:0;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;line-height:1.4;color:rgba(255,255,255,.8);">“Cuidar do seu sorriso é também cuidar de você.”</p>
+    </div>
+    <div>
+      <div style="font-size:11px;font-weight:600;letter-spacing:2px;color:#C4A35A;margin-bottom:18px;">CONTATO</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;color:rgba(255,255,255,.85);font-size:14px;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2AABB7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+        <span>Av. Pedro Timponi, 12 — Loja 2, Nova Benfica</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;color:rgba(255,255,255,.85);font-size:14px;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2AABB7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5c0 8.3 6.7 15 15 15v-4l-4-2-2 2c-2-1-3.6-2.6-4.6-4.6l2-2-2-4H4z"></path></svg>
+        <span>(32) 98722-7072</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.85);font-size:14px;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2AABB7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="#2AABB7" stroke="none"></circle></svg>
+        <span>@dra.karinabersan</span>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:11px;font-weight:600;letter-spacing:2px;color:#C4A35A;margin-bottom:18px;">NAVEGAÇÃO</div>
+      <a href="#sobre" style="display:block;margin-bottom:12px;color:rgba(255,255,255,.85);font-size:14px;">Sobre a Dra. Karina</a>
+      <a href="#consultorio" style="display:block;margin-bottom:12px;color:rgba(255,255,255,.85);font-size:14px;">O consultório</a>
+      <a href="#tratamentos" style="display:block;margin-bottom:12px;color:rgba(255,255,255,.85);font-size:14px;">Tratamentos</a>
+      <a href="#depoimentos" style="display:block;color:rgba(255,255,255,.85);font-size:14px;">Depoimentos</a>
+    </div>
+  </div>
+  <div style="width:100%;max-width:1200px;box-sizing:border-box;padding-top:22px;display:flex;justify-content:space-between;align-items:center;">
+    <span style="font-size:12px;color:rgba(255,255,255,.5);">© 2026 Dra. Karina Bersan · Consultório Odontológico · CRO-MG 49.110</span>
+    <span style="font-size:12px;color:rgba(255,255,255,.5);">Juiz de Fora, MG</span>
+  </div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":6062}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const cases = [
+      { b: './assets/9367e4304d5b6e32be2b953bfde52653.jpg', a: './assets/3880387f81ac72b304c417ec5083a762.jpg', cap: 'Alinhamento do sorriso' },
+      { b: './assets/d72c4b2c4c52605b28acc03bc342ecf4.jpg', a: './assets/a19c07f5e9accef78d05145fa55be5b1.jpg', cap: 'Correção da mordida' },
+      { b: './assets/b43864c4a716f98a0df6c0536382473a.jpg', a: './assets/2ec9030ab83ffec3ef1735a762dc0e3d.jpg', cap: 'Fechamento de espaços' },
+      { b: './assets/2d14e679f0a67aaffd47eb729eb98428.jpg', a: './assets/81d955d50e07e1e5ba4069f79aaa400c.jpg', cap: 'Implante Dentário' }
+    ];
+    const pos = (this.state && this.state.pos) ? this.state.pos : [46, 52, 48, 50];
+    const sliders = cases.map((it, i) => ({
+      before: it.b,
+      after: it.a,
+      cap: it.cap,
+      pos: pos[i],
+      clipPath: 'inset(0 ' + (100 - pos[i]) + '% 0 0)',
+      leftPct: pos[i] + '%',
+      onInput: (e) => {
+        const v = Number(e.target.value);
+        const next = pos.slice();
+        next[i] = v;
+        this.setState({ pos: next });
+      }
+    }));
+    return { sliders };
+  }
+}
+</script>
+</body>
+</html>
