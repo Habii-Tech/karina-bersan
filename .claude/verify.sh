@@ -30,7 +30,8 @@ done
 tmpdir=$(mktemp -d)
 trap 'rm -rf "$tmpdir"' EXIT
 tmp="$tmpdir/dc-script.js"
-awk '/<script[^>]*data-dc-script/{f=1; next} f && /<\/script>/{f=0} f' "$html" > "$tmp"
+# The opening tag may span several lines (e.g. after Prettier); start capturing after its closing ">".
+awk 'f==0 && /data-dc-script/{f=2} f==2{if (/>[[:space:]]*$/) f=1; next} f==1 && /<\/script>/{f=0} f==1' "$html" > "$tmp"
 if [ ! -s "$tmp" ]; then
   echo "verify: could not extract data-dc-script block from $html" >&2
   fail=1
