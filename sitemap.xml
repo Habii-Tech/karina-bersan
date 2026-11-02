@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://SEU-DOMINIO.com.br/</loc>
+    <lastmod>2026-11-02</lastmod>
+    <image:image>
+      <image:loc>https://SEU-DOMINIO.com.br/assets/16c8b0c5bec6e2c5090068de84129f4e.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://SEU-DOMINIO.com.br/assets/6d71eecc98b93d2b638435860b825b2a.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://SEU-DOMINIO.com.br/assets/7c2fe61785522c504f6cf3686e2b242e.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://SEU-DOMINIO.com.br/assets/4892d2d57239d76691a4bf4d293c73d2.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://SEU-DOMINIO.com.br/assets/1123b405a318293487185e0912736999.jpg</image:loc>
+    </image:image>
+  </url>
+</urlset>

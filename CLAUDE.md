@@ -18,7 +18,9 @@ Always respond to the user in Brazilian Portuguese (pt-BR); code, identifiers an
 - Styling: inline `style="…"` attributes plus the `<helmet><style>` block. Fonts: Cormorant Garamond + Montserrat (Google Fonts).
 
 ## Pitfalls
-- `SEU-DOMINIO.com.br` placeholders (canonical, og:*, twitter:*) must be replaced with the real domain before going live.
+- `SEU-DOMINIO.com.br` placeholders (canonical, og:*, twitter:*, JSON-LD in `<head>`, `robots.txt`, `sitemap.xml`) must be replaced with the real domain before going live: `grep -rl SEU-DOMINIO .`
+- Top-level sections are `<header>/<section>/<footer>`; CSS targets them via `.page > :is(div, section, footer):not(.nav)`. Keep that list in sync if you change a section's tag.
+- Keep the JSON-LD (`Dentist` + `Person`) NAP identical to the Google Business Profile; never add `aggregateRating`/`review` there (self-serving reviews violate Google's policy).
 - Asset files in `assets/` are named by content hash; reference new images as `./assets/<file>`.
 - The page does not render over `file://` (scripts blocked) — always serve it over HTTP.
 

@@ -1,0 +1,13 @@
+{
+  "name": "Dra. Karina Bersan — Consultório Odontológico",
+  "short_name": "Dra. Karina Bersan",
+  "lang": "pt-BR",
+  "start_url": "./",
+  "display": "browser",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    { "src": "./assets/fadcbc74f3d9ac464ab3f42156c41db5.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "./assets/67d8fa01ab2a3cc4fbb327ada8f734c5.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
